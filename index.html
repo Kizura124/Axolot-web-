@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!-- Agar tampilan menyesuaikan layar HP -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kenali Axolotl: Si Naga Air yang Menggemaskan</title>
+
+  <!-- Font: DM Serif Display (judul, elegan) + DM Sans (isi, mudah dibaca semua usia).
+       Ada font cadangan jika Google Fonts gagal dimuat. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== 1. PALET WARNA (ubah di sini untuk mengganti tema) =====
+       Tetap pink, biru muda, toska, dan putih, tetapi lebih tenang
+       dan kontrasnya lebih tinggi supaya nyaman dibaca siapa saja. */
+    :root {
+      --pink:       #fbd5e0;  /* pink lembut */
+      --pink-deep:  #e0709a;  /* pink aksen (dipakai hemat) */
+      --blue:       #e3f3f9;  /* biru muda */
+      --teal:       #4fb8b2;  /* toska */
+      --teal-deep:  #1f6f6c;  /* toska gelap untuk judul & tombol */
+      --ink:        #1f3a45;  /* warna teks utama */
+      --muted:      #4d6670;  /* teks pendukung */
+      --white:      #ffffff;
+      --line:       #d3e6ec;  /* garis tipis */
+      --radius:     14px;
+    }
+
+    /* ===== 2. PENGATURAN DASAR ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 1.125rem;            /* 18px: nyaman untuk anak-anak hingga lansia */
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.7;
+    }
+    h1, h2, h3 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; line-height: 1.2; }
+    h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); color: var(--teal-deep); margin-bottom: .8rem; }
+    h3 { font-size: 1.35rem; margin-bottom: .4rem; }
+    p  { max-width: 62ch; }
+    .wrap { width: min(1080px, 100% - 2.5rem); margin-inline: auto; }
+    section { padding: 4.5rem 0; }
+    .lead { color: var(--muted); margin-bottom: 1.8rem; }
+
+    /* Garis fokus jelas saat memakai keyboard */
+    :focus-visible { outline: 3px solid var(--teal-deep); outline-offset: 3px; }
+
+    /* ===== 3. NAVIGASI ===== */
+    header.nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: .5rem 1.5rem; flex-wrap: wrap; padding: .8rem 0; }
+    .logo { font-family: "DM Serif Display", Georgia, serif; font-size: 1.4rem; color: var(--teal-deep); text-decoration: none; }
+    .nav ul { display: flex; gap: 1.4rem; list-style: none; flex-wrap: wrap; }
+    .nav a:not(.logo) { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 1rem; }
+    .nav a:not(.logo):hover { color: var(--pink-deep); text-decoration: underline; text-underline-offset: 6px; }
+
+    /* ===== 4. HERO ===== */
+    .hero { background: linear-gradient(180deg, var(--blue), var(--white)); padding: 3.5rem 0 4.5rem; overflow: hidden; }
+    .hero .wrap { display: grid; gap: 2.5rem; align-items: center; }
+    .hero h1 { font-size: clamp(2.3rem, 6vw, 3.7rem); margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; color: var(--muted); margin-bottom: 1.8rem; }
+    .btn {
+      display: inline-block; background: var(--teal-deep); color: var(--white);
+      font: 700 1.05rem "DM Sans", sans-serif; text-decoration: none;
+      padding: .9rem 1.9rem; border-radius: 999px;
+      transition: background .2s, transform .2s;
+    }
+    .btn:hover { background: #175856; transform: translateY(-2px); }
+
+    /* Ilustrasi berada di dalam lingkaran putih lembut */
+    .art { background: var(--white); border-radius: 50%; aspect-ratio: 1; width: min(380px, 88%); margin-inline: auto; display: grid; place-items: center; box-shadow: 0 0 0 14px rgba(79,184,178,.14); }
+    .art svg { width: 86%; height: auto; }
+
+    /* Satu-satunya animasi otomatis: insang bergoyang pelan */
+    .gill { transform-box: view-box; animation: sway 3.2s ease-in-out infinite alternate; }
+    .gill.g2 { animation-delay: -1s; } .gill.g3 { animation-delay: -2s; }
+    .gill.left  { transform-origin: 105px 125px; }
+    .gill.right { transform-origin: 215px 125px; animation-direction: alternate-reverse; }
+    @keyframes sway { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+    @media (prefers-reduced-motion: reduce) { .gill { animation: none; } html { scroll-behavior: auto; } }
+
+    /* ===== 5. TENTANG ===== */
+    .about .wrap { display: grid; gap: 2rem; }
+    .info-list { display: grid; gap: 1rem; }
+    .info { border: 1px solid var(--line); border-left: 6px solid var(--teal); border-radius: var(--radius); padding: 1.2rem 1.4rem; background: var(--white); }
+    .info:nth-child(2) { border-left-color: var(--pink-deep); }
+    .info h3 { font-size: 1.2rem; }
+    .info p { color: var(--muted); font-size: 1rem; }
+
+    /* ===== 6. FAKTA UNIK (semua terbaca langsung, tanpa perlu diklik) ===== */
+    .facts { background: var(--blue); }
+    .grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card { background: var(--white); border-radius: var(--radius); padding: 1.6rem; border-top: 6px solid var(--teal); }
+    .card:nth-child(even) { border-top-color: var(--pink-deep); }
+    .card p { color: var(--muted); font-size: 1rem; }
+
+    /* ===== 7. PERAWATAN ===== */
+    .care .wrap { display: grid; gap: 1.2rem; }
+    .care-box { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.7rem; }
+    .care-box ul { padding-left: 1.2rem; color: var(--muted); font-size: 1rem; }
+    .care-box li { margin-bottom: .4rem; }
+    .note { background: var(--pink); border-radius: var(--radius); padding: 1.1rem 1.5rem; font-size: 1rem; max-width: none; }
+
+    /* ===== 8. GALERI (placeholder) ===== */
+    .gallery { background: var(--blue); }
+    .gallery-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+    .ph { aspect-ratio: 4 / 3; border-radius: var(--radius); background: var(--white); border: 2px dashed var(--teal); display: grid; place-items: center; text-align: center; color: var(--teal-deep); font-weight: 500; padding: 1rem; }
+    .ph img { width: 100%; height: 100%; object-fit: cover; border-radius: calc(var(--radius) - 2px); }
+
+    /* ===== 9. FOOTER ===== */
+    footer { background: var(--teal-deep); color: var(--white); text-align: center; padding: 2.2rem 1rem; font-size: 1rem; }
+    footer small { display: block; opacity: .85; margin-top: .3rem; }
+
+    /* ===== 10. LAYAR LAPTOP (lebar ≥ 800px) ===== */
+    @media (min-width: 800px) {
+      .hero .wrap  { grid-template-columns: 1.15fr .85fr; }
+      .about .wrap { grid-template-columns: 1fr 1fr; align-items: start; }
+      .care .wrap  { grid-template-columns: 1fr 1fr; }
+      .care .head, .note { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== NAVIGASI ===== -->
+  <header class="nav">
+    <div class="wrap">
+      <a class="logo" href="#atas">Dunia Axolotl</a>
+      <nav aria-label="Menu utama">
+        <ul>
+          <li><a href="#tentang">Tentang</a></li>
+          <li><a href="#fakta">Fakta Unik</a></li>
+          <li><a href="#perawatan">Perawatan</a></li>
+          <li><a href="#galeri">Galeri</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="atas">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <h1>Kenali Axolotl: Si Naga Air yang Menggemaskan!</h1>
+          <p>Berkenalan dengan hewan air berwajah tersenyum yang mampu menumbuhkan kembali anggota tubuhnya. Penjelasannya singkat dan mudah dipahami, cocok untuk siapa saja yang baru mengenalnya.</p>
+          <a class="btn" href="#tentang">Mulai Kenalan</a>
+        </div>
+
+        <!-- Ilustrasi SVG (tidak perlu file gambar). Insang (.gill) dianimasikan lewat CSS. -->
+        <div class="art">
+          <svg viewBox="0 0 320 260" role="img" aria-label="Ilustrasi kepala axolotl yang tersenyum">
+            <g class="gill left g1"><line x1="105" y1="115" x2="38" y2="75"  stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="36" cy="73" r="8" fill="#e0709a"/></g>
+            <g class="gill left g2"><line x1="102" y1="130" x2="30" y2="128" stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="28" cy="128" r="8" fill="#e0709a"/></g>
+            <g class="gill left g3"><line x1="106" y1="145" x2="40" y2="182" stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="38" cy="184" r="8" fill="#e0709a"/></g>
+            <g class="gill right g1"><line x1="215" y1="115" x2="282" y2="75"  stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="284" cy="73" r="8" fill="#e0709a"/></g>
+            <g class="gill right g2"><line x1="218" y1="130" x2="290" y2="128" stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="292" cy="128" r="8" fill="#e0709a"/></g>
+            <g class="gill right g3"><line x1="214" y1="145" x2="280" y2="182" stroke="#e0709a" stroke-width="9" stroke-linecap="round"/><circle cx="282" cy="184" r="8" fill="#e0709a"/></g>
+            <ellipse cx="160" cy="140" rx="100" ry="76" fill="#fbd5e0"/>
+            <ellipse cx="108" cy="162" rx="14" ry="9" fill="#e0709a" opacity=".45"/>
+            <ellipse cx="212" cy="162" rx="14" ry="9" fill="#e0709a" opacity=".45"/>
+            <circle cx="122" cy="130" r="8" fill="#1f3a45"/><circle cx="125" cy="127" r="2.5" fill="#fff"/>
+            <circle cx="198" cy="130" r="8" fill="#1f3a45"/><circle cx="201" cy="127" r="2.5" fill="#fff"/>
+            <path d="M130 160 Q160 188 190 160" fill="none" stroke="#1f3a45" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TENTANG AXOLOTL ===== -->
+    <section class="about" id="tentang">
+      <div class="wrap">
+        <div>
+          <h2>Apa itu Axolotl?</h2>
+          <p>Axolotl (dibaca "aks-o-lotl") adalah sejenis salamander, yaitu hewan amfibi, yang seumur hidupnya tinggal di dalam air. Warnanya bisa pink, putih, abu-abu, atau cokelat, dengan tiga pasang insang berbulu di sisi kepala. Namanya berasal dari bahasa Nahuatl, bahasa suku Aztek, dan kira-kira berarti "anjing air".</p>
+        </div>
+        <div class="info-list">
+          <div class="info">
+            <h3>Asal</h3>
+            <p>Danau Xochimilco dan sekitarnya, dekat Kota Meksiko, Meksiko. Hanya di sanalah axolotl hidup di alam liar.</p>
+          </div>
+          <div class="info">
+            <h3>Status konservasi</h3>
+            <p>Sangat Terancam Punah (Critically Endangered) menurut IUCN. Polusi, hilangnya habitat, dan ikan pendatang membuat jumlahnya di alam liar sangat sedikit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAKTA UNIK ===== -->
+    <section class="facts" id="fakta">
+      <div class="wrap">
+        <h2>Fakta Unik</h2>
+        <p class="lead">Empat hal yang membuat axolotl berbeda dari hewan lain.</p>
+        <div class="grid">
+          <!-- Untuk menambah fakta, salin satu blok <article class="card"> -->
+          <article class="card">
+            <h3>Jago regenerasi</h3>
+            <p>Kaki, ekor, insang, bahkan sebagian jantung dan sumsum tulang belakang bisa tumbuh lagi, biasanya tanpa bekas luka.</p>
+          </article>
+          <article class="card">
+            <h3>Selalu tersenyum</h3>
+            <p>Mulutnya melengkung ke atas secara alami, sehingga wajahnya tampak tersenyum terus. Itu bentuk anatomi, bukan tanda sedang senang.</p>
+          </article>
+          <article class="card">
+            <h3>Tak pernah dewasa</h3>
+            <p>Kebanyakan salamander berubah bentuk dan pindah ke darat saat dewasa. Axolotl tetap berwujud "anak" dan tinggal di air seumur hidup. Istilahnya neoteni.</p>
+          </article>
+          <article class="card">
+            <h3>Banyak warna</h3>
+            <p>Selain pink (albino) dan putih (leucistic), ada yang cokelat gelap, abu-abu, hingga hitam. Warna di alam liar cenderung gelap.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TIPS PERAWATAN ===== -->
+    <section class="care" id="perawatan">
+      <div class="wrap">
+        <div class="head">
+          <h2>Tips Perawatan Singkat</h2>
+          <p class="lead">Dua hal paling penting bagi pemula yang ingin memelihara.</p>
+        </div>
+        <div class="care-box">
+          <h3>Air yang dingin</h3>
+          <ul>
+            <li>Suhu ideal sekitar 14–18 °C.</li>
+            <li>Di atas 24 °C axolotl mudah stres dan sakit.</li>
+            <li>Air harus bersih dan bebas kaporit. Pakai penyaring dengan arus lemah.</li>
+          </ul>
+        </div>
+        <div class="care-box">
+          <h3>Makanan</h3>
+          <ul>
+            <li>Cacing darah (bloodworm) dan cacing tanah yang dipotong.</li>
+            <li>Pelet khusus axolotl atau ikan karnivora.</li>
+            <li>Beri secukupnya, lalu angkat sisa makanan agar air tidak kotor.</li>
+          </ul>
+        </div>
+        <p class="note">Kulit axolotl sangat halus, jadi sebaiknya tidak dipegang tanpa alasan penting. Cek juga aturan kepemilikan di daerahmu sebelum membeli.</p>
+      </div>
+    </section>
+
+    <!-- ===== GALERI (placeholder) ===== -->
+    <section class="gallery" id="galeri">
+      <div class="wrap">
+        <h2>Galeri</h2>
+        <p class="lead">Tempat untuk foto-foto axolotl pilihanmu.</p>
+        <div class="gallery-grid">
+          <!-- Cara mengganti: hapus teks di dalam <div class="ph"> lalu isi dengan
+               <img src="foto1.jpg" alt="Axolotl pink sedang berenang"> -->
+          <div class="ph">Foto 1<br>(tempat gambar)</div>
+          <div class="ph">Foto 2<br>(tempat gambar)</div>
+          <div class="ph">Foto 3<br>(tempat gambar)</div>
+          <div class="ph">Foto 4<br>(tempat gambar)</div>
+          <div class="ph">Foto 5<br>(tempat gambar)</div>
+          <div class="ph">Foto 6<br>(tempat gambar)</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <strong>Dunia Axolotl</strong>
+    <small>Pengenalan axolotl untuk pemula &copy; <span id="tahun"></span></small>
+  </footer>
+
+  <script>
+    // ===== JAVASCRIPT =====
+    // Mengisi tahun di footer secara otomatis.
+    document.getElementById('tahun').textContent = new Date().getFullYear();
+  </script>
+</body>
+  </html>
